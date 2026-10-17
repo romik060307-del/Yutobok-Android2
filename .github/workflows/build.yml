@@ -16,15 +16,18 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Gradle 7.5
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          gradle-version: '7.5'
-
-      - name: Generate Wrapper & Build APK
+      - name: Manual Gradle Setup and Build
         run: |
+          # 1. Download & Extract Gradle 7.5
+          wget -q https://services.gradle.org/distributions/gradle-7.5-bin.zip
+          unzip -q gradle-7.5-bin.zip
+          export PATH=$PWD/gradle-7.5/bin:$PATH
+
+          # 2. Generate Wrapper secara otomatis
           gradle wrapper --gradle-version 7.5
           chmod +x gradlew
+
+          # 3. Jalankan Build APK Debug
           ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK Artifact
