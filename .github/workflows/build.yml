@@ -22,16 +22,15 @@ jobs:
         with:
           gradle-version: '8.9'
 
-      - name: Generate Gradle Wrapper & Grant Executable Permission
+      - name: Build APK inside Folder
         run: |
+          cd YutobokAndroid
           gradle wrapper --gradle-version 8.9
           chmod +x gradlew
-
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --no-daemon
+          ./gradlew assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Yutobok-Android-APK
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: YutobokAndroid/app/build/outputs/apk/debug/app-debug.apk
